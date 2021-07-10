@@ -44,16 +44,19 @@ export default function Example() {
       href={item.href}
       className={classNames(
         item.current
-          ? "bg-gray-100 text-gray-900"
-          : "text-gray-600 hover:bg-gray-50 hover:text-gray-900",
+          ? "bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-200"
+          : "text-gray-600 dark:text-gray-300",
+        "hover:bg-gray-50 dark:hover:bg-gray-900",
+        "hover:text-gray-900 dark:hover:text-gray-100",
         "group flex items-center px-2 py-2 text-sm font-medium rounded-md"
       )}
     >
       <item.icon
         className={classNames(
           item.current
-            ? "text-gray-500"
-            : "text-gray-400 group-hover:text-gray-500",
+            ? "text-gray-500 dark:text-gray-300"
+            : "text-gray-400 dark:text-gray-400",
+          "group-hover:text-gray-500",
           "mr-3 flex-shrink-0 h-6 w-6"
         )}
         aria-hidden="true"
@@ -62,7 +65,10 @@ export default function Example() {
       {item.count ? (
         <span
           className={classNames(
-            item.current ? "bg-white" : "bg-gray-100 group-hover:bg-gray-200",
+            item.current
+              ? "bg-white dark:bg-black"
+              : "bg-gray-100 dark:bg-gray-800",
+            "group-hover:bg-gray-200 dark:group-hover:bg-gray-700",
             "ml-auto inline-block py-0.5 px-3 text-xs rounded-full"
           )}
         >
@@ -73,7 +79,7 @@ export default function Example() {
   );
 
   const NavMenu = () => (
-    <nav className="mt-5 flex-1 px-2 bg-white space-y-1">
+    <nav className="mt-5 flex-1 px-2 bg-white dark:bg-black space-y-1">
       <div className="space-y-1">
         {account.map((item) => (
           <NavMenuItem key={item.name} item={item} />
@@ -81,7 +87,7 @@ export default function Example() {
       </div>
       <div className="pt-8">
         <h3
-          className="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider"
+          className="px-3 text-xs font-semibold text-gray-500 dark:text-gray-300 uppercase tracking-wider"
           id="projects-headline"
         >
           Charts
@@ -96,7 +102,7 @@ export default function Example() {
   );
 
   return (
-    <div className="h-screen flex overflow-hidden bg-white">
+    <div className="h-screen flex overflow-hidden bg-white dark:bg-black">
       <Transition.Root show={sidebarOpen} as={Fragment}>
         <Dialog
           as="div"
@@ -125,7 +131,7 @@ export default function Example() {
             leaveFrom="translate-x-0"
             leaveTo="-translate-x-full"
           >
-            <div className="relative flex-1 flex flex-col max-w-xs w-full bg-white">
+            <div className="relative flex-1 flex flex-col max-w-xs w-full bg-white dark:bg-black">
               <Transition.Child
                 as={Fragment}
                 enter="ease-in-out duration-300"
@@ -155,7 +161,7 @@ export default function Example() {
                 </div>
                 <NavMenu />
               </div>
-              <div className="flex-shrink-0 flex border-t border-gray-200 p-4">
+              <div className="flex-shrink-0 flex border-t border-gray-200 dark:border-gray-800 p-4">
                 <a href="#" className="flex-shrink-0 group block">
                   <div className="flex items-center">
                     <div>
@@ -188,7 +194,7 @@ export default function Example() {
       <div className="hidden md:flex md:flex-shrink-0">
         <div className="flex flex-col w-64">
           {/* Sidebar component, swap this element with another sidebar if you like */}
-          <div className="flex flex-col h-0 flex-1 border-r border-gray-200 bg-white">
+          <div className="flex flex-col h-0 flex-1 border-r border-gray-200 dark:border-gray-800 bg-white dark:bg-black">
             <div className="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
               <div className="flex items-center flex-shrink-0 px-4">
                 <img
@@ -199,7 +205,7 @@ export default function Example() {
               </div>
               <NavMenu />
             </div>
-            <div className="flex-shrink-0 flex border-t border-gray-200 p-4">
+            <div className="flex-shrink-0 flex border-t border-gray-200 dark:border-gray-800 p-4">
               <a href="#" className="flex-shrink-0 w-full group block">
                 <div className="flex items-center">
                   <div>
@@ -236,14 +242,14 @@ export default function Example() {
         <main className="flex-1 relative z-0 overflow-y-auto focus:outline-none">
           <div className="py-6">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-              <h1 className="text-2xl font-semibold text-gray-900">
+              <h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">
                 Dashboard
               </h1>
             </div>
             <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
               {/* Replace with your content */}
               <div className="py-4">
-                <div className="border-4 border-dashed border-gray-200 rounded-lg h-96" />
+                <div className="border-4 border-dashed border-gray-200 dark:border-gray-800 rounded-lg h-96" />
               </div>
               {/* /End replace */}
             </div>
