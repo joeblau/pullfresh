@@ -11,6 +11,7 @@ import {
   ViewListIcon,
   XIcon,
 } from "@heroicons/react/outline";
+import AddPublicKey from "./AddPublicKeys";
 
 const account = [
   { name: "Dashboard", href: "/", icon: HomeIcon },
@@ -37,6 +38,7 @@ function classNames(...classes: any) {
 
 const SidebarNavMenu = (props: any) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
   const router = useRouter();
 
   const NavMenuItem = (props: any) => (
@@ -104,6 +106,7 @@ const SidebarNavMenu = (props: any) => {
 
   return (
     <div className="h-screen flex overflow-hidden bg-white dark:bg-black">
+      <AddPublicKey />
       <Transition.Root show={sidebarOpen} as={Fragment}>
         <Dialog
           as="div"
