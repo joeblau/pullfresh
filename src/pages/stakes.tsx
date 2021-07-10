@@ -1,12 +1,12 @@
 import SidebarNavMenu from "../components/ui/SidebarNavMenu";
 
-const Dashboard = () => (
+const Stakes = () => (
   <SidebarNavMenu>
     <main className="flex-1 relative z-0 overflow-y-auto focus:outline-none">
       <div className="py-6">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
           <h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">
-            Dashboard
+            Stakes
           </h1>
         </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
@@ -21,4 +21,4 @@ const Dashboard = () => (
   </SidebarNavMenu>
 );
 
-export default Dashboard;
+export default Stakes;
