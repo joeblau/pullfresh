@@ -1,4 +1,6 @@
 import SidebarNavMenu from "../components/ui/SidebarNavMenu";
+import getCurrentDay from "../utils/getCurrentDay";
+import getGlobalInfo from "../utils/getGlobalInfo";
 
 const Dashboard = () => (
   <SidebarNavMenu>
@@ -20,5 +22,15 @@ const Dashboard = () => (
     </main>
   </SidebarNavMenu>
 );
+
+export async function getStaticProps(context: any) {
+  const currentDay = await getCurrentDay();
+  const globalInfo = await getGlobalInfo();
+
+  return {
+    props: { currentDay: currentDay, globalInfo: globalInfo },
+    revalidate: 5 * 60,
+  };
+}
 
 export default Dashboard;
