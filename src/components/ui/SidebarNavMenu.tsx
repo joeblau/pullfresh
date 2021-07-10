@@ -2,6 +2,7 @@ import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import Image from "next/image";
 import {
   HomeIcon,
   MenuIcon,
@@ -38,12 +39,11 @@ const SidebarNavMenu = (props: any) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const router = useRouter();
 
-  const NavMenuItem = ({ item }) => (
-    <Link href={item.href}>
+  const NavMenuItem = (props: any) => (
+    <Link href={props.item.href}>
       <a
-        key={item.name}
         className={classNames(
-          item.href == router.pathname
+          props.item.href == router.pathname
             ? "bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-200"
             : "text-gray-600 dark:text-gray-300",
           "hover:bg-gray-50 dark:hover:bg-gray-900",
@@ -51,9 +51,9 @@ const SidebarNavMenu = (props: any) => {
           "group flex items-center px-2 py-2 text-sm font-medium rounded-md"
         )}
       >
-        <item.icon
+        <props.item.icon
           className={classNames(
-            item.href == router.pathname
+            props.item.href == router.pathname
               ? "text-gray-500 dark:text-gray-300"
               : "text-gray-400 dark:text-gray-400",
             "group-hover:text-gray-500",
@@ -61,18 +61,18 @@ const SidebarNavMenu = (props: any) => {
           )}
           aria-hidden="true"
         />
-        <span className="truncate">{item.name}</span>
-        {item.count ? (
+        <span className="truncate">{props.item.name}</span>
+        {props.item.count ? (
           <span
             className={classNames(
-              item.href == router.pathname
+              props.item.href == router.pathname
                 ? "bg-white dark:bg-black"
                 : "bg-gray-100 dark:bg-gray-800",
               "group-hover:bg-gray-200 dark:group-hover:bg-gray-700",
               "ml-auto inline-block py-0.5 px-3 text-xs rounded-full"
             )}
           >
-            {item.count}
+            {props.item.count}
           </span>
         ) : null}
       </a>
@@ -154,22 +154,19 @@ const SidebarNavMenu = (props: any) => {
               </Transition.Child>
               <div className="flex-1 h-0 pt-5 pb-4 overflow-y-auto">
                 <div className="flex-shrink-0 flex items-center px-4">
-                  <img
-                    className="h-8 w-auto"
-                    src="https://tailwindui.com/img/logos/workflow-logo-indigo-600-mark-gray-800-text.svg"
-                    alt="Workflow"
-                  />
+                  <div className="h-8 w-auto">{/* Brand Goes Here */}</div>
                 </div>
                 <NavMenu />
               </div>
               <div className="flex-shrink-0 flex border-t border-gray-200 dark:border-gray-800 p-4">
                 <a href="#" className="flex-shrink-0 group block">
                   <div className="flex items-center">
-                    <div>
-                      <img
-                        className="inline-block h-10 w-10 rounded-full"
+                    <div className="inline-block h-10 w-10 rounded-full overflow-hidden relative">
+                      <Image
                         src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                        alt=""
+                        alt="Profile"
+                        layout="fill"
+                        objectFit="cover"
                       />
                     </div>
                     <div className="ml-3">
@@ -198,22 +195,19 @@ const SidebarNavMenu = (props: any) => {
           <div className="flex flex-col h-0 flex-1 border-r border-gray-200 dark:border-gray-800 bg-white dark:bg-black">
             <div className="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
               <div className="flex items-center flex-shrink-0 px-4">
-                <img
-                  className="h-8 w-auto"
-                  src="https://tailwindui.com/img/logos/workflow-logo-indigo-600-mark-gray-800-text.svg"
-                  alt="Workflow"
-                />
+                <div className="h-8 w-auto">{/* Brand Goes Here */}</div>
               </div>
               <NavMenu />
             </div>
             <div className="flex-shrink-0 flex border-t border-gray-200 dark:border-gray-800 p-4">
               <a href="#" className="flex-shrink-0 w-full group block">
                 <div className="flex items-center">
-                  <div>
-                    <img
-                      className="inline-block h-9 w-9 rounded-full"
+                  <div className="inline-block h-9 w-9 rounded-full overflow-hidden relative">
+                    <Image
                       src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                      alt=""
+                      alt="Profile"
+                      layout="fill"
+                      objectFit="cover"
                     />
                   </div>
                   <div className="ml-3">

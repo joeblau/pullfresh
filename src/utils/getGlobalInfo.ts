@@ -1,4 +1,4 @@
-function chunkSubstr(str, size) {
+function chunkSubstr(str: string, size: number) {
   const numChunks = Math.ceil(str.length / size);
   const chunks = new Array(numChunks);
 

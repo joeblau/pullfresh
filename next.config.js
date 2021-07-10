@@ -5,4 +5,7 @@ module.exports = {
     HEX_CONTRACT_CURRENTDAY: "0x5c9302c9",
     HEX_CONTRACT_GLOBALINFO: "0xf04b5fa0",
   },
+  images: {
+    domains: ["tailwindui.com", "images.unsplash.com"],
+  },
 };
