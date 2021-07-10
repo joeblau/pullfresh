@@ -1,32 +1,99 @@
 /* This example requires Tailwind CSS v2.0+ */
-import { Fragment, useState } from 'react'
-import { Dialog, Transition } from '@headlessui/react'
+import { Fragment, useState } from "react";
+import { Dialog, Transition } from "@headlessui/react";
 import {
-  CalendarIcon,
-  ChartBarIcon,
-  FolderIcon,
   HomeIcon,
-  InboxIcon,
   MenuIcon,
-  UsersIcon,
+  PresentationChartLineIcon,
+  TrendingUpIcon,
+  ViewListIcon,
   XIcon,
-} from '@heroicons/react/outline'
+} from "@heroicons/react/outline";
 
-const navigation = [
-  { name: 'Dashboard', href: '#', icon: HomeIcon, current: true },
-  { name: 'Team', href: '#', icon: UsersIcon, current: false },
-  { name: 'Projects', href: '#', icon: FolderIcon, current: false },
-  { name: 'Calendar', href: '#', icon: CalendarIcon, current: false },
-  { name: 'Documents', href: '#', icon: InboxIcon, current: false },
-  { name: 'Reports', href: '#', icon: ChartBarIcon, current: false },
-]
+const account = [
+  { name: "Dashboard", href: "#", icon: HomeIcon, current: true },
+  {
+    name: "Stakes",
+    href: "#",
+    icon: ViewListIcon,
+    current: false,
+    count: "19",
+  },
+];
+
+const charts = [
+  { name: "Price", href: "#", icon: TrendingUpIcon, current: false },
+  {
+    name: "Comparisons",
+    href: "#",
+    icon: PresentationChartLineIcon,
+    current: false,
+  },
+];
 
 function classNames(...classes) {
-  return classes.filter(Boolean).join(' ')
+  return classes.filter(Boolean).join(" ");
 }
 
 export default function Example() {
-  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const NavMenuItem = ({ item }) => (
+    <a
+      key={item.name}
+      href={item.href}
+      className={classNames(
+        item.current
+          ? "bg-gray-100 text-gray-900"
+          : "text-gray-600 hover:bg-gray-50 hover:text-gray-900",
+        "group flex items-center px-2 py-2 text-sm font-medium rounded-md"
+      )}
+    >
+      <item.icon
+        className={classNames(
+          item.current
+            ? "text-gray-500"
+            : "text-gray-400 group-hover:text-gray-500",
+          "mr-3 flex-shrink-0 h-6 w-6"
+        )}
+        aria-hidden="true"
+      />
+      <span className="truncate">{item.name}</span>
+      {item.count ? (
+        <span
+          className={classNames(
+            item.current ? "bg-white" : "bg-gray-100 group-hover:bg-gray-200",
+            "ml-auto inline-block py-0.5 px-3 text-xs rounded-full"
+          )}
+        >
+          {item.count}
+        </span>
+      ) : null}
+    </a>
+  );
+
+  const NavMenu = () => (
+    <nav className="mt-5 flex-1 px-2 bg-white space-y-1">
+      <div className="space-y-1">
+        {account.map((item) => (
+          <NavMenuItem key={item.name} item={item} />
+        ))}
+      </div>
+      <div className="pt-8">
+        <h3
+          className="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider"
+          id="projects-headline"
+        >
+          Charts
+        </h3>
+        <div className="mt-1 space-y-1" aria-labelledby="projects-headline">
+          {charts.map((item) => (
+            <NavMenuItem key={item.name} item={item} />
+          ))}
+        </div>
+      </div>
+    </nav>
+  );
 
   return (
     <div className="h-screen flex overflow-hidden bg-white">
@@ -86,29 +153,7 @@ export default function Example() {
                     alt="Workflow"
                   />
                 </div>
-                <nav className="mt-5 px-2 space-y-1">
-                  {navigation.map((item) => (
-                    <a
-                      key={item.name}
-                      href={item.href}
-                      className={classNames(
-                        item.current
-                          ? 'bg-gray-100 text-gray-900'
-                          : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
-                        'group flex items-center px-2 py-2 text-base font-medium rounded-md'
-                      )}
-                    >
-                      <item.icon
-                        className={classNames(
-                          item.current ? 'text-gray-500' : 'text-gray-400 group-hover:text-gray-500',
-                          'mr-4 flex-shrink-0 h-6 w-6'
-                        )}
-                        aria-hidden="true"
-                      />
-                      {item.name}
-                    </a>
-                  ))}
-                </nav>
+                <NavMenu />
               </div>
               <div className="flex-shrink-0 flex border-t border-gray-200 p-4">
                 <a href="#" className="flex-shrink-0 group block">
@@ -121,15 +166,21 @@ export default function Example() {
                       />
                     </div>
                     <div className="ml-3">
-                      <p className="text-base font-medium text-gray-700 group-hover:text-gray-900">Tom Cook</p>
-                      <p className="text-sm font-medium text-gray-500 group-hover:text-gray-700">View profile</p>
+                      <p className="text-base font-medium text-gray-700 group-hover:text-gray-900">
+                        Tom Cook
+                      </p>
+                      <p className="text-sm font-medium text-gray-500 group-hover:text-gray-700">
+                        View profile
+                      </p>
                     </div>
                   </div>
                 </a>
               </div>
             </div>
           </Transition.Child>
-          <div className="flex-shrink-0 w-14">{/* Force sidebar to shrink to fit close icon */}</div>
+          <div className="flex-shrink-0 w-14">
+            {/* Force sidebar to shrink to fit close icon */}
+          </div>
         </Dialog>
       </Transition.Root>
 
@@ -146,27 +197,7 @@ export default function Example() {
                   alt="Workflow"
                 />
               </div>
-              <nav className="mt-5 flex-1 px-2 bg-white space-y-1">
-                {navigation.map((item) => (
-                  <a
-                    key={item.name}
-                    href={item.href}
-                    className={classNames(
-                      item.current ? 'bg-gray-100 text-gray-900' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
-                      'group flex items-center px-2 py-2 text-sm font-medium rounded-md'
-                    )}
-                  >
-                    <item.icon
-                      className={classNames(
-                        item.current ? 'text-gray-500' : 'text-gray-400 group-hover:text-gray-500',
-                        'mr-3 flex-shrink-0 h-6 w-6'
-                      )}
-                      aria-hidden="true"
-                    />
-                    {item.name}
-                  </a>
-                ))}
-              </nav>
+              <NavMenu />
             </div>
             <div className="flex-shrink-0 flex border-t border-gray-200 p-4">
               <a href="#" className="flex-shrink-0 w-full group block">
@@ -179,8 +210,12 @@ export default function Example() {
                     />
                   </div>
                   <div className="ml-3">
-                    <p className="text-sm font-medium text-gray-700 group-hover:text-gray-900">Tom Cook</p>
-                    <p className="text-xs font-medium text-gray-500 group-hover:text-gray-700">View profile</p>
+                    <p className="text-sm font-medium text-gray-700 group-hover:text-gray-900">
+                      Tom Cook
+                    </p>
+                    <p className="text-xs font-medium text-gray-500 group-hover:text-gray-700">
+                      View profile
+                    </p>
                   </div>
                 </div>
               </a>
@@ -201,7 +236,9 @@ export default function Example() {
         <main className="flex-1 relative z-0 overflow-y-auto focus:outline-none">
           <div className="py-6">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-              <h1 className="text-2xl font-semibold text-gray-900">Dashboard</h1>
+              <h1 className="text-2xl font-semibold text-gray-900">
+                Dashboard
+              </h1>
             </div>
             <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
               {/* Replace with your content */}
@@ -214,5 +251,5 @@ export default function Example() {
         </main>
       </div>
     </div>
-  )
+  );
 }
