@@ -3,6 +3,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
+import Head from "next/head";
 import {
   HomeIcon,
   MenuIcon,
@@ -106,6 +107,11 @@ const SidebarNavMenu = (props: any) => {
 
   return (
     <div className="h-screen flex overflow-hidden bg-white dark:bg-black">
+      <Head>
+        <title>Pullfresh</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+      </Head>
       <AddPublicKey />
       <Transition.Root show={sidebarOpen} as={Fragment}>
         <Dialog
