@@ -2,16 +2,8 @@ import SidebarNavMenu from "../components/ui/SidebarNavMenu";
 import getCurrentDay from "../utils/getCurrentDay";
 import getGlobalInfo from "../utils/getGlobalInfo";
 
-/* This example requires Tailwind CSS v2.0+ */
-import { ArrowSmDownIcon, ArrowSmUpIcon } from "@heroicons/react/solid";
-import {
-  CursorClickIcon,
-  MailOpenIcon,
-  UsersIcon,
-} from "@heroicons/react/outline";
-
 const StatCard = ({ cardInfo }: any) => (
-  <div className="px-4 py-5 bg-white dark:bg-black shadow rounded-lg overflow-hidden sm:p-6">
+  <div className="px-4 py-5 bg-white dark:bg-trueGray-900 shadow rounded-lg overflow-hidden sm:p-6">
     <dt className="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">
       {cardInfo.title}
     </dt>
@@ -45,11 +37,6 @@ const Dashboard = (props: any) => (
         </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
           <Stats data={props} />
-          {/* Replace with your content */}
-          {/* <div className="py-4">
-            <div className="border-4 border-dashed border-gray-200 dark:border-gray-800 rounded-lg h-96" />
-          </div> */}
-          {/* /End replace */}
         </div>
       </div>
     </main>

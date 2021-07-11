@@ -105,7 +105,7 @@ const SidebarNavMenu = (props: any) => {
   );
 
   return (
-    <div className="h-screen flex overflow-hidden bg-white dark:bg-gray-900">
+    <div className="h-screen flex overflow-hidden bg-white dark:bg-black">
       <AddPublicKey />
       <Transition.Root show={sidebarOpen} as={Fragment}>
         <Dialog
