@@ -39,12 +39,14 @@ async function getGlobalInfo() {
       );
 
       const percentStaked = (lockedHEX / circulatingSupply) * 100;
-      const dailyInfo = {
-        circulatingSupply: circulatingSupply,
-        lockedHEX: lockedHEX,
-        percentStaked: percentStaked,
-      };
-      return dailyInfo;
+      return [
+        { title: "Circulating Supply", stat: circulatingSupply },
+        { title: "Locked HEX", stat: lockedHEX },
+        {
+          title: "Percent Staked",
+          stat: percentStaked,
+        },
+      ];
     });
 }
 

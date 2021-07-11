@@ -16,7 +16,7 @@ async function getCurrentDay() {
     .then((res) => res.json())
     .then((res) => {
       var currentDay = parseInt(res.result, 16);
-      return currentDay;
+      return { title: "Current Day", stat: currentDay };
     });
 }
 
