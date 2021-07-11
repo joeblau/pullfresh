@@ -5,7 +5,7 @@ import { KeyIcon, ExclamationIcon, PlusIcon } from "@heroicons/react/outline";
 const publicKeys = [{ value: "1235" }];
 
 const AddPublicKey = () => {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
 
   const PublicKeyRow = (props: any) => (
     <li className="pl-3 pr-4 py-3 flex items-center justify-between text-sm">

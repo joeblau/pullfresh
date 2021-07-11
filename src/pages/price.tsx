@@ -1,24 +1,22 @@
 import SidebarNavMenu from "../components/ui/SidebarNavMenu";
+import TradingViewWidget, { Themes } from "react-tradingview-widget";
+import { useDarkMode } from "next-dark-mode";
 
-const Price = () => (
-  <SidebarNavMenu>
-    <main className="flex-1 relative z-0 overflow-y-auto focus:outline-none">
-      <div className="py-6">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-          <h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">
-            Price
-          </h1>
-        </div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-          {/* Replace with your content */}
-          <div className="py-4">
-            <div className="border-4 border-dashed border-gray-200 dark:border-gray-800 rounded-lg h-96" />
-          </div>
-          {/* /End replace */}
-        </div>
-      </div>
-    </main>
-  </SidebarNavMenu>
-);
+const Price = () => {
+  const { darkModeActive } = useDarkMode();
+
+  return (
+    <SidebarNavMenu>
+      <main className="flex-1 relative z-0 overflow-y-auto focus:outline-none h-screen w-screen">
+        <TradingViewWidget
+          symbol="HEXUSDC"
+          theme={darkModeActive ? Themes.DARK : Themes.LIGHT}
+          locale="en"
+          autosize
+        />
+      </main>
+    </SidebarNavMenu>
+  );
+};
 
 export default Price;
