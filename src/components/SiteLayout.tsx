@@ -11,11 +11,6 @@ const SiteLayout = (props: any) => {
 
   return (
     <div className="h-screen flex overflow-hidden bg-white dark:bg-black">
-      <Head>
-        <title>Pullfresh</title>
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-      </Head>
       <AddPublicKey />
       <Transition.Root show={sidebarOpen} as={Fragment}>
         <Dialog
