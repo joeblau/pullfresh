@@ -12,7 +12,7 @@ import {
   ViewListIcon,
   XIcon,
 } from "@heroicons/react/outline";
-import AddPublicKey from "./AddPublicKeys";
+import AddPublicKey from "./ui/AddPublicKeys";
 
 const account = [
   { name: "Dashboard", href: "/", icon: HomeIcon },
@@ -37,7 +37,7 @@ function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
 }
 
-const SidebarNavMenu = (props: any) => {
+const SiteLayout = (props: any) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const router = useRouter();
@@ -249,4 +249,4 @@ const SidebarNavMenu = (props: any) => {
   );
 };
 
-export default SidebarNavMenu;
+export default SiteLayout;
