@@ -34,7 +34,7 @@ const NavMenu = () => {
   const router = useRouter();
 
   const NavMenuItem = ({ item }: any) => (
-    <Link href={item.href}>
+    <Link href={item.href} shallow={true}>
       <a
         className={classNames(
           item.href == router.pathname

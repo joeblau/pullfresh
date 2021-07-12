@@ -9,6 +9,8 @@ const Price = () => {
       <AdvancedRealTimeChart
         autosize={true}
         symbol="UNISWAP:HEXUSDC"
+        interval="60"
+        range="3M"
         theme={darkModeActive ? "dark" : "light"}
       />
     </main>
