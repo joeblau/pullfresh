@@ -13,6 +13,7 @@ const ICON_152 = `${DOMAIN}/images/icons/icon-152x152.png`;
 const ICON_167 = `${DOMAIN}/images/icons/icon-167x167.png`;
 const ICON_180 = `${DOMAIN}/images/icons/icon-180x180.png`;
 const ICON_192 = `${DOMAIN}/images/icons/icon-192x192.png`;
+const ICON_512 = `${DOMAIN}/images/icons/icon-512x512.png`;
 
 const FAVICON_16 = `${DOMAIN}/images/icons/favicon-16x16.png`;
 const FAVICON_32 = `${DOMAIN}/images/icons/favicon-32x32.png`;
@@ -49,13 +50,6 @@ class MyDocument extends Document {
           <link rel="apple-touch-icon" sizes="180x180" href={ICON_180} />
           <link rel="apple-touch-icon" sizes="167x167" href={ICON_167} />
 
-          {/* Favicons */}
-          <link rel="icon" type="image/png" sizes="32x32" href={FAVICON_32} />
-          <link rel="icon" type="image/png" sizes="16x16" href={FAVICON_16} />
-          <link rel="manifest" href="/static/manifest.json" />
-          <link rel="mask-icon" href={PINNED_TAB} color="#FF2D55" />
-          <link rel="shortcut icon" href="/favicon.ico" />
-
           {/* Twitter Metadata */}
           <meta name="twitter:card" content="summary" />
           <meta name="twitter:url" content={DOMAIN} />
@@ -70,10 +64,13 @@ class MyDocument extends Document {
           <meta property="og:description" content={DESCRIPTION} />
           <meta property="og:site_name" content={TITLE} />
           <meta property="og:url" content={DOMAIN} />
-          <meta
-            property="og:image"
-            content="https://yourdomain.com/static/icons/apple-touch-icon.png"
-          />
+          <meta property="og:image" content={ICON_512} />
+
+          {/* Favicons */}
+          <link rel="icon" type="image/png" sizes="32x32" href={FAVICON_32} />
+          <link rel="icon" type="image/png" sizes="16x16" href={FAVICON_16} />
+          <link rel="mask-icon" href={PINNED_TAB} color="#FF2D55" />
+          <link rel="shortcut icon" href="/favicon.ico" />
         </Head>
         <body className="bg-white dark:bg-black">
           <Main />
