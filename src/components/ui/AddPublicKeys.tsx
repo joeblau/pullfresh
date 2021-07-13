@@ -1,12 +1,10 @@
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { KeyIcon, ExclamationIcon, PlusIcon } from "@heroicons/react/outline";
+import { KeyIcon, PlusIcon } from "@heroicons/react/outline";
 
 const publicKeys = [{ value: "1235" }];
 
-const AddPublicKey = () => {
-  const [open, setOpen] = useState(false);
-
+const AddPublicKey = ({ presentAccount, setPresentAccount }: any) => {
   const PublicKeyRow = (props: any) => (
     <li className="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
       <div className="w-0 flex-1 flex items-center">
@@ -70,13 +68,13 @@ const AddPublicKey = () => {
   );
 
   return (
-    <Transition.Root show={open} as={Fragment}>
+    <Transition.Root show={presentAccount} as={Fragment}>
       <Dialog
         as="div"
         static
         className="fixed z-10 inset-0 overflow-y-auto"
-        open={open}
-        onClose={setOpen}
+        open={presentAccount}
+        onClose={setPresentAccount}
       >
         <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
           <Transition.Child
@@ -143,7 +141,7 @@ const AddPublicKey = () => {
                 <button
                   type="button"
                   className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm"
-                  onClick={() => setOpen(false)}
+                  onClick={() => setPresentAccount(false)}
                 >
                   Close
                 </button>
