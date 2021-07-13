@@ -4,7 +4,6 @@ import Image from "next/image";
 import Head from "next/head";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import AddPublicKey from "./ui/AddPublicKeys";
-import NavMenu from "./ui/NavMenu";
 import { useDarkMode } from "next-dark-mode";
 import Link from "next/link";
 import { useRouter } from "next/router";
