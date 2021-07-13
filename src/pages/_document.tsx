@@ -14,8 +14,8 @@ const ICON_167 = `${DOMAIN}/images/icons/icon-167x167.png`;
 const ICON_180 = `${DOMAIN}/images/icons/icon-180x180.png`;
 const ICON_192 = `${DOMAIN}/images/icons/icon-192x192.png`;
 
-const FAVICON_16 = `${DOMAIN}/images/icons/icon-16x16.png`;
-const FAVICON_32 = `${DOMAIN}/images/icons/icon-32x32.png`;
+const FAVICON_16 = `${DOMAIN}/images/icons/favicon-16x16.png`;
+const FAVICON_32 = `${DOMAIN}/images/icons/favicon-32x32.png`;
 
 const PINNED_TAB = `${DOMAIN}/images/icons/safari-pinned-tab.svg`;
 
