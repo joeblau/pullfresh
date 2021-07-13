@@ -1,4 +1,3 @@
-import { useDarkMode } from "next-dark-mode";
 import Document, { Html, Head, Main, NextScript } from "next/document";
 import React from "react";
 
