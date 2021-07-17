@@ -8,7 +8,7 @@ const Price = () => {
     <main className="flex-1 relative z-0 overflow-y-auto focus:outline-none">
       <AdvancedRealTimeChart
         autosize={true}
-        symbol="UNISWAP:HEXUSDC"
+        symbol="UniswapV2:HEXUSD"
         interval="60"
         range="3M"
         theme={darkModeActive ? "dark" : "light"}

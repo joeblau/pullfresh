@@ -1,10 +1,33 @@
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { KeyIcon, PlusIcon } from "@heroicons/react/outline";
-
-const publicKeys = [{ value: "1235" }];
+import { useForm } from "react-hook-form";
+import useLocalStorage from "../../hooks/useLocalStorage";
 
 const AddPublicKey = ({ presentAccount, setPresentAccount }: any) => {
+  const [accounts, setAccounts] = useLocalStorage(
+    String(process.env.ACCOUNTS_STORAGE_KEY),
+    Array<string>()
+  );
+
+  const { register, handleSubmit } = useForm();
+  const onSubmit = (data: any) => {
+    const newAccounts = [...accounts, data["publicKey"]];
+    // remove duplicated values from newAccounts
+    const newAccountsSet = newAccounts.reduce((acc, curr) => {
+      if (acc.indexOf(curr) === -1) {
+        acc.push(curr);
+      }
+      return acc;
+    }, []);
+    setAccounts(newAccountsSet);
+  };
+
+  const deleteAccount = (account: string) => {
+    const newAccounts = accounts.filter((a) => a !== account);
+    setAccounts(newAccounts);
+  };
+
   const PublicKeyRow = (props: any) => (
     <li className="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
       <div className="w-0 flex-1 flex items-center">
@@ -13,13 +36,14 @@ const AddPublicKey = ({ presentAccount, setPresentAccount }: any) => {
           aria-hidden="true"
         />
         <span className="ml-2 flex-1 w-0 truncate dark:text-white font-mono">
-          {props.publicKey.value}
+          {props.publicKey}
         </span>
       </div>
       <div className="ml-4 flex-shrink-0">
         <a
           href="#"
           className="font-medium text-indigo-600 hover:text-indigo-500"
+          onClick={() => deleteAccount(props.publicKey)}
         >
           Delete
         </a>
@@ -39,31 +63,32 @@ const AddPublicKey = ({ presentAccount, setPresentAccount }: any) => {
         Add public key or ens domain
       </p>
 
-      <div className="flex">
-        <div className="flex-grow">
-          <input
-            type="text"
-            name="add-team-members"
-            id="add-team-members"
-            className="block w-full shadow-sm focus:ring-sky-500 focus:border-sky-500 sm:text-sm border-gray-300 rounded-md dark:bg-black"
-            placeholder="Email address"
-            aria-describedby="add-team-members-helper"
-          />
-        </div>
-        <span className="ml-3">
-          <button
-            type="button"
-            className="bg-white dark:bg-black inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 
-            hover:bg-gray-50 dark:hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500"
-          >
-            <PlusIcon
-              className="-ml-2 mr-1 h-5 w-5 text-gray-400"
-              aria-hidden="true"
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="flex">
+          <div className="flex-grow">
+            <input
+              {...register("publicKey")}
+              type="text"
+              className="block w-full shadow-sm focus:ring-sky-500 focus:border-sky-500 sm:text-sm border-gray-300 rounded-md dark:bg-black dark:text-white"
+              placeholder="New Public Key"
+              required
             />
-            <span>Add</span>
-          </button>
-        </span>
-      </div>
+          </div>
+          <span className="ml-3">
+            <button
+              type="submit"
+              className="bg-white dark:bg-black inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 
+            hover:bg-gray-50 dark:hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500"
+            >
+              <PlusIcon
+                className="-ml-2 mr-1 h-5 w-5 text-gray-400"
+                aria-hidden="true"
+              />
+              <span>Add</span>
+            </button>
+          </span>
+        </div>
+      </form>
     </div>
   );
 
@@ -121,18 +146,20 @@ const AddPublicKey = ({ presentAccount, setPresentAccount }: any) => {
                     Add Public Key
                   </Dialog.Title>
 
-                  <div className="sm:col-span-2 py-4">
-                    <dt className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                      Tracked Accounts
-                    </dt>
-                    <dd className="mt-1 text-sm text-gray-900">
-                      <ul className="border border-gray-200 rounded-md divide-y divide-gray-200">
-                        {publicKeys.map((key) => (
-                          <PublicKeyRow key="key" publicKey={key} />
-                        ))}
-                      </ul>
-                    </dd>
-                  </div>
+                  {accounts.length > 0 && (
+                    <div className="sm:col-span-2 py-4">
+                      <dt className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                        Tracked Accounts
+                      </dt>
+                      <dd className="mt-1 text-sm text-gray-900">
+                        <ul className="border border-gray-200 rounded-md divide-y divide-gray-200">
+                          {accounts.map((key) => (
+                            <PublicKeyRow key={key} publicKey={key} />
+                          ))}
+                        </ul>
+                      </dd>
+                    </div>
+                  )}
 
                   <AddPublicKey />
                 </div>
