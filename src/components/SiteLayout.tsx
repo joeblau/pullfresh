@@ -7,11 +7,36 @@ import AddPublicKey from "./ui/AddPublicKeys";
 import { useDarkMode } from "next-dark-mode";
 import Link from "next/link";
 import NavMenu from "./ui/NavMenu";
+import useLocalStorage from "../hooks/useLocalStorage";
 
 const SiteLayout = (props: any) => {
+  const [accounts, setAccounts] = useLocalStorage(
+    String(process.env.ACCOUNTS_STORAGE_KEY),
+    Array<string>()
+  );
   const [presentSidebar, setPresentSidebar] = useState(false);
   const [presentAccount, setPresentAccount] = useState(false);
   const { darkModeActive } = useDarkMode();
+
+  const AccountsButton = () => (
+    <div className="flex justify-center border-t border-gray-200 dark:border-gray-800 p-4">
+      <button
+        type="button"
+        className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+        onClick={() => {
+          setPresentSidebar(false);
+          setPresentAccount(true);
+        }}
+      >
+        Accounts
+        <div className="pl-2">
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-green-100 text-green-800">
+            {accounts.length}
+          </span>
+        </div>
+      </button>
+    </div>
+  );
 
   return (
     <div className="h-screen flex overflow-hidden bg-white dark:bg-black">
@@ -86,36 +111,7 @@ const SiteLayout = (props: any) => {
                 </div>
                 <NavMenu setPresentSidebar={setPresentSidebar} />
               </div>
-              <div className="flex-shrink-0 flex border-t border-gray-200 dark:border-gray-800 p-4">
-                <Link href="#">
-                  <a
-                    className="flex-shrink-0 group block"
-                    onClick={() => {
-                      setPresentSidebar(false);
-                      setPresentAccount(true);
-                    }}
-                  >
-                    <div className="flex items-center">
-                      <div className="inline-block h-10 w-10 rounded-full overflow-hidden relative">
-                        <Image
-                          src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                          alt="Profile"
-                          layout="fill"
-                          objectFit="cover"
-                        />
-                      </div>
-                      <div className="ml-3">
-                        <p className="text-base font-medium text-gray-700 group-hover:text-gray-900">
-                          Tom Cook
-                        </p>
-                        <p className="text-sm font-medium text-gray-500 group-hover:text-gray-700">
-                          View profile
-                        </p>
-                      </div>
-                    </div>
-                  </a>
-                </Link>
-              </div>
+              <AccountsButton />
             </div>
           </Transition.Child>
           <div className="flex-shrink-0 w-14">
@@ -135,36 +131,8 @@ const SiteLayout = (props: any) => {
               </div>
               <NavMenu />
             </div>
-            <div className="flex-shrink-0 flex border-t border-gray-200 dark:border-gray-800 p-4">
-              <Link href="#">
-                <a
-                  className="flex-shrink-0 w-full group block"
-                  onClick={() => {
-                    setPresentSidebar(false);
-                    setPresentAccount(true);
-                  }}
-                >
-                  <div className="flex items-center">
-                    <div className="inline-block h-9 w-9 rounded-full overflow-hidden relative">
-                      <Image
-                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                        alt="Profile"
-                        layout="fill"
-                        objectFit="cover"
-                      />
-                    </div>
-                    <div className="ml-3">
-                      <p className="text-sm font-medium text-gray-700 group-hover:text-gray-900">
-                        Tom Cook
-                      </p>
-                      <p className="text-xs font-medium text-gray-500 group-hover:text-gray-700">
-                        View profile
-                      </p>
-                    </div>
-                  </div>
-                </a>
-              </Link>
-            </div>
+
+            <AccountsButton />
           </div>
         </div>
       </div>
