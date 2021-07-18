@@ -1,11 +1,9 @@
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import Image from "next/image";
 import Head from "next/head";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import AddPublicKey from "./ui/AddPublicKeys";
 import { useDarkMode } from "next-dark-mode";
-import Link from "next/link";
 import NavMenu from "./ui/NavMenu";
 import useLocalStorage from "../hooks/useLocalStorage";
 

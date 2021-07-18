@@ -6,6 +6,9 @@ import {
   ViewListIcon,
 } from "@heroicons/react/outline";
 import { useRouter } from "next/router";
+import getStakeCount from "../../utils/getStakeCount";
+import { useEffect, useState } from "react";
+import useLocalStorage from "../../hooks/useLocalStorage";
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
@@ -17,7 +20,7 @@ const account = [
     name: "Stakes",
     href: "/stakes",
     icon: ViewListIcon,
-    count: "19",
+    count: "0",
   },
 ];
 
@@ -32,6 +35,25 @@ const charts = [
 
 const NavMenu = ({ setPresentSidebar }: any) => {
   const router = useRouter();
+  const [accounts, setAccounts] = useLocalStorage(
+    String(process.env.ACCOUNTS_STORAGE_KEY),
+    Array<string>()
+  );
+  const [stakeCount, setStakeCount] = useState(0);
+
+  useEffect(() => {
+    async function updateStakeCount() {
+      const stakeCounts = await Promise.all(
+        accounts.map(async (address) => {
+          return await getStakeCount(address);
+        })
+      );
+
+      const stakeCountSum = stakeCounts.reduce((a, b) => a + b, 0);
+      setStakeCount(stakeCountSum);
+    }
+    updateStakeCount();
+  });
 
   const NavMenuItem = ({ item }: any) => (
     <Link href={item.href}>
@@ -69,7 +91,7 @@ const NavMenu = ({ setPresentSidebar }: any) => {
               "ml-auto inline-block py-0.5 px-3 text-xs rounded-full"
             )}
           >
-            {item.count}
+            {stakeCount}
           </span>
         ) : null}
       </a>
