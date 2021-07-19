@@ -82,9 +82,9 @@ const Stakes = () => {
           <div className="flex flex-col">
             <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
               <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-                  <table className="min-w-full divide-y divide-gray-200">
-                    <thead className="bg-gray-50">
+                <div className="shadow overflow-hidden border-b border-gray-200 dark:border-gray-700 sm:rounded-lg">
+                  <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                    <thead className="bg-gray-50 dark:bg-gray-900">
                       <tr>
                         <th
                           data-priority="1"
@@ -123,9 +123,6 @@ const Stakes = () => {
                         >
                           Staked HEX
                         </th>
-                        {/* <th scope="col" className="relative px-6 py-3">
-                          <span className="sr-only">Edit</span>
-                        </th> */}
                       </tr>
                     </thead>
                     <tbody>
@@ -133,21 +130,23 @@ const Stakes = () => {
                         <tr
                           key={stakeIndex}
                           className={
-                            stakeIndex % 2 === 0 ? "bg-white" : "bg-gray-50"
+                            stakeIndex % 2 === 0
+                              ? "bg-white dark:bg-gray-800"
+                              : "bg-gray-50 dark:bg-gray-900"
                           }
                         >
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-mono">
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-100  font-mono">
                             {stake.lockedDay}
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 font-mono">
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-100 font-mono">
                             {endDay(stake.lockedDay, stake.stakedDays)}
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 font-mono">
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-100 font-mono">
                             {daysLeft(stake.lockedDay, stake.stakedDays)}
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-100">
                             <div className="relative pt-1">
-                              <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-purple-200">
+                              <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-purple-200 dark:bg-purple-300">
                                 <div
                                   style={{
                                     width: `${percentComplete(
@@ -155,15 +154,15 @@ const Stakes = () => {
                                       stake.stakedDays
                                     )}%`,
                                   }}
-                                  className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-purple-500"
+                                  className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-purple-500 dark:bg-purple-700"
                                 ></div>
                               </div>
                             </div>
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-mono">
+                          <td className="px-6 py-4 whitespace-nowrap text-right text-sm text-gray-500 dark:text-gray-100 font-mono">
                             {tShares(stake.stakeShares)}
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-mono">
+                          <td className="px-6 py-4 whitespace-nowrap text-right text-sm text-gray-500 dark:text-gray-100 font-mono">
                             {stakedHex(stake.stakedHearts)} HEX
                           </td>
                         </tr>
