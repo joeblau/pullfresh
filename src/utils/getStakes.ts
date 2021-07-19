@@ -1,7 +1,7 @@
 import Web3 from "web3";
-import HEX_ABI from "./hex.abi.json";
 import getStakeCount from "./getStakeCount";
 
+const HEX_ABI = require("./hex.abi.json");
 const web3 = new Web3(
   "https://mainnet.infura.io/v3/84842078b09946638c03157f83405213"
 );
