@@ -1,105 +1,183 @@
-/* This example requires Tailwind CSS v2.0+ */
-const people = [
-  {
-    name: "Jane Cooper",
-    title: "Regional Paradigm Technician",
-    role: "Admin",
-    email: "jane.cooper@example.com",
-  },
-  {
-    name: "Cody Fisher",
-    title: "Product Directives Officer",
-    role: "Owner",
-    email: "cody.fisher@example.com",
-  },
-  // More people...
-];
+import { useEffect } from "react";
+import { useState } from "react";
+import useLocalStorage from "../hooks/useLocalStorage";
+import getStakes from "../utils/getStakes";
+import getCurrentDay from "../utils/getCurrentDay";
 
-const Stakes = () => (
-  <main className="flex-1 relative z-0 overflow-y-auto focus:outline-none">
-    <div className="py-6">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-        <h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">
-          Stakes
-        </h1>
-      </div>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-        <div className="flex flex-col">
-          <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-            <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-              <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-                <table className="min-w-full divide-y divide-gray-200">
-                  <thead className="bg-gray-50">
-                    <tr>
-                      <th
-                        data-priority="1"
-                        scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                      >
-                        Name
-                      </th>
-                      <th
-                        scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                      >
-                        Title
-                      </th>
-                      <th
-                        scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                      >
-                        Email
-                      </th>
-                      <th
-                        scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                      >
-                        Role
-                      </th>
-                      <th scope="col" className="relative px-6 py-3">
-                        <span className="sr-only">Edit</span>
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {people.map((person, personIdx) => (
-                      <tr
-                        key={person.email}
-                        className={
-                          personIdx % 2 === 0 ? "bg-white" : "bg-gray-50"
-                        }
-                      >
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                          {person.name}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {person.title}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {person.email}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {person.role}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                          <a
-                            href="#"
-                            className="text-indigo-600 hover:text-indigo-900"
-                          >
-                            Edit
-                          </a>
-                        </td>
+const Stakes = () => {
+  const [isLoaded, setLoaded] = useState(false);
+  const [stakes, setStakes] = useState<Array<any>>(Array<any>());
+  const [accounts, setAccounts] = useLocalStorage(
+    String(process.env.ACCOUNTS_STORAGE_KEY),
+    Array<string>()
+  );
+  const [currentDay, setCurrentDay] = useState<number>(0);
+
+  useEffect(() => {
+    async function updateStakes() {
+      const currentDay = await getCurrentDay();
+
+      // if currentDay stat is not null set the currentDay
+      if (isNaN(currentDay.stat) === false) {
+        setCurrentDay(currentDay.stat);
+      }
+
+      if (!isLoaded) {
+        const stakes = await Promise.all(
+          accounts.map(async (address) => {
+            return await getStakes(address);
+          })
+        );
+        // flatten stakes array of arrays
+        const flattenedStakes = stakes.reduce((a, b) => a.concat(b), []);
+        console.log(flattenedStakes);
+        // if stakes == flattedStakes, do nothing
+        if (flattenedStakes.length !== stakes.length) {
+          setStakes(flattenedStakes);
+        }
+
+        setLoaded(true);
+      }
+    }
+    updateStakes();
+  });
+
+  const daysLeft = (startDay: string, duration: string) => {
+    return endDay(startDay, duration) - currentDay;
+  };
+
+  const endDay = (startDay: string, duration: string) => {
+    return parseInt(startDay) + parseInt(duration);
+  };
+
+  const percentComplete = (startDay: string, duration: string) => {
+    return Math.round(
+      ((currentDay - parseInt(startDay)) / parseInt(duration)) * 100
+    );
+  };
+
+  const tShares = (shares: string) => {
+    const tshares = parseInt(shares) / 1_000_000_000_000;
+    // round 3 decimal places
+    const roundedTShares = parseFloat(tshares.toFixed(3));
+    // add commas into roudedTShares integer
+    return roundedTShares.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+
+  const stakedHex = (hearts: string) => {
+    let hex = parseInt(hearts) / 100_000_000;
+    const roundedHEX = parseFloat(hex.toFixed(3));
+    return roundedHEX.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+
+  return (
+    <main className="flex-1 relative z-0 overflow-y-auto focus:outline-none">
+      <div className="py-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+          <h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">
+            Stakes
+          </h1>
+        </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+          <div className="flex flex-col">
+            <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+              <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                  <table className="min-w-full divide-y divide-gray-200">
+                    <thead className="bg-gray-50">
+                      <tr>
+                        <th
+                          data-priority="1"
+                          scope="col"
+                          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          Start Day
+                        </th>
+                        <th
+                          scope="col"
+                          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          End Day
+                        </th>
+                        <th
+                          scope="col"
+                          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          Days Left
+                        </th>
+                        <th
+                          scope="col"
+                          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          Days Completed
+                        </th>
+                        <th
+                          scope="col"
+                          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          T-Shares
+                        </th>
+                        <th
+                          scope="col"
+                          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          Staked HEX
+                        </th>
+                        {/* <th scope="col" className="relative px-6 py-3">
+                          <span className="sr-only">Edit</span>
+                        </th> */}
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {stakes.map((stake, stakeIndex) => (
+                        <tr
+                          key={stakeIndex}
+                          className={
+                            stakeIndex % 2 === 0 ? "bg-white" : "bg-gray-50"
+                          }
+                        >
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-mono">
+                            {stake.lockedDay}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 font-mono">
+                            {endDay(stake.lockedDay, stake.stakedDays)}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 font-mono">
+                            {daysLeft(stake.lockedDay, stake.stakedDays)}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            <div className="relative pt-1">
+                              <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-purple-200">
+                                <div
+                                  style={{
+                                    width: `${percentComplete(
+                                      stake.lockedDay,
+                                      stake.stakedDays
+                                    )}%`,
+                                  }}
+                                  className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-purple-500"
+                                ></div>
+                              </div>
+                            </div>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-mono">
+                            {tShares(stake.stakeShares)}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-mono">
+                            {stakedHex(stake.stakedHearts)} HEX
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </main>
-);
+    </main>
+  );
+};
 
 export default Stakes;

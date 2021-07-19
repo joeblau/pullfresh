@@ -40,6 +40,8 @@ const Dashboard = (props: any) => (
   </main>
 );
 
+export default Dashboard;
+
 export async function getStaticProps(context: any) {
   var dashboardInfo = new Array();
 
@@ -56,5 +58,3 @@ export async function getStaticProps(context: any) {
     revalidate: 5 * 60,
   };
 }
-
-export default Dashboard;
