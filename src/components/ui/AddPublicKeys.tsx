@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { KeyIcon, PlusIcon } from "@heroicons/react/outline";
 import { useForm } from "react-hook-form";
@@ -10,9 +10,12 @@ const AddPublicKey = ({ presentAccount, setPresentAccount }: any) => {
     Array<string>()
   );
 
-  const { register, handleSubmit } = useForm();
-  const onSubmit = (data: any) => {
-    const newAccounts = [...accounts, data["publicKey"]];
+  const { register, handleSubmit, reset } = useForm();
+
+  const onSubmit = (data: any, e: any) => {
+    // remove spaces from data["publicKey"]
+    const publicKey = data["publicKey"].replace(/\s/g, "");
+    const newAccounts = [...accounts, publicKey];
     // remove duplicated values from newAccounts
     const newAccountsSet = newAccounts.reduce((acc, curr) => {
       if (acc.indexOf(curr) === -1) {
@@ -20,6 +23,7 @@ const AddPublicKey = ({ presentAccount, setPresentAccount }: any) => {
       }
       return acc;
     }, []);
+    reset();
     setAccounts(newAccountsSet);
   };
 
