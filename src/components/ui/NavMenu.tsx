@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import getStakeCount from "../../utils/getStakeCount";
 import { useEffect, useState } from "react";
 import useLocalStorage from "../../hooks/useLocalStorage";
+import hexContract from "../../utils/hex/hexContract";
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
@@ -45,7 +46,7 @@ const NavMenu = ({ setPresentSidebar }: any) => {
     async function updateStakeCount() {
       const stakeCounts = await Promise.all(
         accounts.map(async (address) => {
-          return await getStakeCount(address);
+          return await getStakeCount(hexContract, address);
         })
       );
 

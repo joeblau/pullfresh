@@ -1,8 +1,9 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import useLocalStorage from "../hooks/useLocalStorage";
-import getStakes from "../utils/getStakes";
+import getStakes from "../utils/hex/getStakes";
 import getCurrentDay from "../utils/getCurrentDay";
+import hexContract from "../utils/hex/hexContract";
 
 const Stakes = () => {
   const [isLoaded, setLoaded] = useState(false);
@@ -25,12 +26,11 @@ const Stakes = () => {
       if (!isLoaded) {
         const stakes = await Promise.all(
           accounts.map(async (address) => {
-            return await getStakes(address);
+            return await getStakes(hexContract, address);
           })
         );
         // flatten stakes array of arrays
         const flattenedStakes = stakes.reduce((a, b) => a.concat(b), []);
-        console.log(flattenedStakes);
         // if stakes == flattedStakes, do nothing
         if (flattenedStakes.length !== stakes.length) {
           setStakes(flattenedStakes);
@@ -56,6 +56,11 @@ const Stakes = () => {
     );
   };
 
+  const interest = (interest: number) => {
+    let hex = Number(interest) / 100_000_000;
+    const roundedHEX = parseFloat(hex.toFixed(3));
+    return roundedHEX.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
   const tShares = (shares: string) => {
     const tshares = parseInt(shares) / 1_000_000_000_000;
     // round 3 decimal places
@@ -115,6 +120,12 @@ const Stakes = () => {
                           scope="col"
                           className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                         >
+                          Interest
+                        </th>
+                        <th
+                          scope="col"
+                          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
                           T-Shares
                         </th>
                         <th
@@ -158,6 +169,9 @@ const Stakes = () => {
                                 ></div>
                               </div>
                             </div>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-right text-sm text-gray-500 dark:text-gray-100 font-mono">
+                            {interest(stake.interest)}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-right text-sm text-gray-500 dark:text-gray-100 font-mono">
                             {tShares(stake.stakeShares)}
