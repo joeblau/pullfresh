@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import useLocalStorage from "../hooks/useLocalStorage";
+import useLocalStorage from "../lib/useLocalStorage";
 import getStakes from "../utils/hex/getStakes";
 import getCurrentDay from "../utils/getCurrentDay";
 import hexContract from "../utils/hex/hexContract";

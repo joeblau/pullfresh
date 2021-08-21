@@ -8,7 +8,7 @@ import {
 import { useRouter } from "next/router";
 import getStakeCount from "../../utils/getStakeCount";
 import { useEffect, useState } from "react";
-import useLocalStorage from "../../hooks/useLocalStorage";
+import useLocalStorage from "../../lib/useLocalStorage";
 import hexContract from "../../utils/hex/hexContract";
 
 function classNames(...classes: any) {

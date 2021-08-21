@@ -1,20 +1,42 @@
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { KeyIcon, PlusIcon } from "@heroicons/react/outline";
 import { useForm } from "react-hook-form";
-import useLocalStorage from "../../hooks/useLocalStorage";
+import useLocalStorage from "../../lib/useLocalStorage";
+import { useWeb3React } from "@web3-react/core";
+import { useEagerConnect, useInactiveListener } from "../../lib/crypto/hooks";
+import { injected } from "../../lib/crypto/connectors";
 
 const AddPublicKey = ({ presentAccount, setPresentAccount }: any) => {
+  const { register, handleSubmit, reset } = useForm();
+  const [activatingConnector, setActivatingConnector] = useState<any>();
+  const { connector, library, chainId, account, activate, active } =
+    useWeb3React();
   const [accounts, setAccounts] = useLocalStorage(
     String(process.env.ACCOUNTS_STORAGE_KEY),
     Array<string>()
   );
 
-  const { register, handleSubmit, reset } = useForm();
+  // handle logic to eagerly connect to the injected ethereum provider, if it exists and has granted access already
+  const triedEager = useEagerConnect();
 
-  const onSubmit = (data: any, e: any) => {
-    // remove spaces from data["publicKey"]
-    const publicKey = data["publicKey"].replace(/\s/g, "");
+  // handle logic to connect in reaction to certain events on the injected ethereum provider, if it exists
+  useInactiveListener(!triedEager || !!activatingConnector);
+
+  useEffect(() => {
+    if (activatingConnector && activatingConnector === connector) {
+      setActivatingConnector(undefined);
+    } else {
+      setActivatingConnector("Injected");
+      activate(injected);
+    }
+  }, [activatingConnector, connector, activate]);
+
+  const onSubmit = async (data: any, e: any) => {
+    const publicKeyOrENS = data["publicKey"].replace(/\s/g, "");
+    const resolvedName = await library.resolveName(publicKeyOrENS);
+
+    const publicKey = resolvedName.replace(/\s/g, "");
     const newAccounts = [...accounts, publicKey];
     // remove duplicated values from newAccounts
     const newAccountsSet = newAccounts.reduce((acc, curr) => {
@@ -64,7 +86,7 @@ const AddPublicKey = ({ presentAccount, setPresentAccount }: any) => {
         Add Public Key
       </label>
       <p id="add-team-members-helper" className="sr-only">
-        Add public key or ens domain
+        Add public key or ENS domain
       </p>
 
       <form onSubmit={handleSubmit(onSubmit)}>

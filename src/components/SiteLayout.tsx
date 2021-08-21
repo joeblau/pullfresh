@@ -5,7 +5,7 @@ import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import AddPublicKey from "./ui/AddPublicKeys";
 import { useDarkMode } from "next-dark-mode";
 import NavMenu from "./ui/NavMenu";
-import useLocalStorage from "../hooks/useLocalStorage";
+import useLocalStorage from "../lib/useLocalStorage";
 
 const SiteLayout = (props: any) => {
   const [accounts, setAccounts] = useLocalStorage(
