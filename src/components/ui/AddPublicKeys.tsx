@@ -26,15 +26,16 @@ const AddPublicKey = ({ presentAccount, setPresentAccount }: any) => {
   useEffect(() => {
     if (activatingConnector && activatingConnector === connector) {
       setActivatingConnector(undefined);
-    } else {
-      setActivatingConnector("Injected");
-      activate(injected);
     }
   }, [activatingConnector, connector, activate]);
 
   const onSubmit = async (data: any, e: any) => {
+    setActivatingConnector("Injected");
+    activate(injected);
     const publicKeyOrENS = data["publicKey"].replace(/\s/g, "");
     console.log(publicKeyOrENS);
+    console.log(library);
+
     const resolvedName = await library.resolveName(publicKeyOrENS);
 
     const publicKey = resolvedName.replace(/\s/g, "");
