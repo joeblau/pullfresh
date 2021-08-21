@@ -34,6 +34,7 @@ const AddPublicKey = ({ presentAccount, setPresentAccount }: any) => {
 
   const onSubmit = async (data: any, e: any) => {
     const publicKeyOrENS = data["publicKey"].replace(/\s/g, "");
+    console.log(publicKeyOrENS);
     const resolvedName = await library.resolveName(publicKeyOrENS);
 
     const publicKey = resolvedName.replace(/\s/g, "");
